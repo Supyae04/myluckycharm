@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Thadingyut Gift for My Girlfriend 💝🏮</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Padauk', sans-serif;
+    background: linear-gradient(135deg, #ffe6e6 0%, #ffd1dc 100%);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+    z-index: 1;
+    transition: background 0.5s ease;
+  }
+
+  body.bg-spinner {
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  body.bg-spinner::before {
+    content: '';
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* ပုံကို နည်းနည်းမှောင်ပြီး စာသားတွေ ထင်ရှားအောင် */
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ---------------- Page Setup ---------------- */
+  .page { display: none; animation: fadeIn .5s ease; width: 100%; max-width: 450px; text-align: center; position: relative; z-index: 10; }
+  .page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ---------------- Envelope Styling ---------------- */
+  .envelope {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 55px 25px 40px;
+    box-shadow: 0 20px 40px rgba(255, 105, 180, 0.2);
+    border: 2px solid #ffb6c1;
+    color: #333;
+  }
+  .wax-seal {
+    position: absolute; top: -28px; left: 50%; transform: translateX(-50%);
+    width: 55px; height: 55px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b81, #e63946);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    font-size: 24px; box-shadow: 0 5px 15px rgba(230, 57, 70, 0.4);
+    border: 3px solid #fff;
+    z-index: 10;
+  }
+  
+  .sticker-video {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    margin: 0 auto 15px;
+    display: block;
+    mix-blend-mode: multiply; 
+  }
+
+  .title { font-size: 28px; color: #d6336c; margin-bottom: 10px; font-weight: 700; text-shadow: 1px 1px 2px rgba(255,255,255,0.8); }
+  .subtitle { font-size: 16px; color: #e64980; margin-bottom: 25px; font-weight: 700; }
+  .hint {
+    font-size: 15px; color: #555; margin-bottom: 30px; padding: 18px;
+    background: #fff0f5; border-radius: 15px;
+    border: 2px dashed #ffb6c1;
+  }
+  .btns { display: flex; gap: 15px; justify-content: center; }
+  .btn {
+    padding: 12px 35px; border: none; border-radius: 30px;
+    font-size: 16px; font-family: inherit; font-weight: 700;
+    cursor: pointer; transition: transform .2s, box-shadow .2s;
+  }
+  .btn-yes { background: linear-gradient(135deg, #ff6b81, #e63946); color: #fff; box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3); }
+  .btn-yes:hover { transform: scale(1.08); box-shadow: 0 10px 25px rgba(230, 57, 70, 0.4); }
+  .btn-no { background: #f1f3f5; color: #868e96; }
+  .btn-no:hover { background: #e9ecef; }
+
+  /* ---------------- Spinner Page ---------------- */
+  .spinner-title { 
+    font-size: 30px; color: #ffd97a; font-weight: 700; margin-bottom: 8px; 
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.8); 
+  }
+  .spinner-sub { font-size: 18px; color: #fff; margin-bottom: 25px; font-weight: 700; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+  .spinner-sub span { color: #ffb3c6; font-weight: 700; font-size: 22px; }
+
+  .wheel-container {
+    position: relative;
+    width: 320px; height: 320px;
+    margin: 0 auto 30px;
+  }
+  .pointer {
+    position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 35px; z-index: 10;
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5));
+  }
+  .wheel-svg {
+    width: 100%; height: 100%;
+    transition: transform 5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));
+    border-radius: 50%;
+    border: 8px solid #fff;
+  }
+  
+  /* အလယ်က Spin ခလုတ် */
+  .center-spin-btn {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 85px; height: 85px; border-radius: 50%;
+    background: linear-gradient(135deg, #e63946, #b02a37);
+    color: #fff; font-size: 20px;
+    font-family: inherit; font-weight: 700; cursor: pointer;
+    border: 5px solid #fff;
+    box-shadow: 0 0 20px rgba(230, 57, 70, 0.8);
+    transition: transform 0.2s, box-shadow 0.2s;
+    z-index: 5;
+  }
+  .center-spin-btn:hover { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 30px rgba(230, 57, 70, 1); }
+  .center-spin-btn:disabled { background: #adb5bd; box-shadow: none; cursor: not-allowed; transform: translate(-50%, -50%); border-color: #dee2e6; }
+
+  /* ချစ်စာလွှာ ခလုတ် */
+  .love-letter-btn {
+    display: none;
+    margin: 20px auto 0;
+    padding: 15px 30px;
+    border: none; border-radius: 30px;
+    background: linear-gradient(135deg, #ff6b81, #c2255c); color: #fff;
+    font-size: 16px; font-family: inherit; font-weight: 700;
+    cursor: pointer; box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .love-letter-btn:hover { transform: scale(1.05); box-shadow: 0 12px 30px rgba(0,0,0,0.8); }
+  @keyframes popIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* ညာဘက်အောက်ထောင့်က ဆုတောင်းစာသား */
+  .spinner-footer {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    font-size: 16px;
+    color: #fff; /* စာသားအရောင် */
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: right; /* ညာဘက်ကပ်ရန် */
+    /* အရိပ်လေးတွေ ထည့်ထားလို့ ပုံပေါ်မှာ ထင်ရှားနေပါမယ် */
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.9), 0 0 10px rgba(0,0,0,0.5); 
+    background: transparent; /* အနက်ရောင် နောက်ခံဖြုတ်ထားပါတယ် */
+    padding: 0;
+    border-radius: 0;
+    display: inline-block;
+    z-index: 50;
+    pointer-events: none; /* နှိပ်လို့ရတဲ့ အရာတွေကို ပိတ်ဆို့မနေစေရန် */
+  }
+
+  /* ---------------- Modal (Popup) ---------------- */
+  .modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    z-index: 100;
+  }
+  .modal-overlay.show { opacity: 1; visibility: visible; }
+  
+  .modal-box {
+    background: linear-gradient(135deg, #ffe6f0 0%, #ffd1dc 100%);
+    width: 90%; max-width: 340px;
+    border-radius: 20px; padding: 20px 20px 30px;
+    text-align: center;
+    transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 50px rgba(214, 51, 108, 0.3);
+    position: relative;
+    border: 2px solid #ffb6c1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+  }
+  .modal-overlay.show .modal-box { transform: scale(1); }
+
+  .modal-sticker {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    mix-blend-mode: multiply;
+  }
+
+  .modal-header { font-size: 22px; font-weight: 700; color: #d6336c; margin-bottom: 10px; }
+  .modal-close {
+    position: absolute; top: 15px; right: 20px;
+    font-size: 22px; color: #d6336c; cursor: pointer; font-weight: bold;
+  }
+  .modal-text { font-size: 15px; color: #666; margin-bottom: 15px; }
+  
+  .prize-box {
+    border: 2px dashed #ff6b81;
+    border-radius: 15px; padding: 15px;
+    background: #fff; color: #c2255c;
+    font-size: 20px; font-weight: 700; margin-bottom: 20px;
+    line-height: 1.5;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  
+  .ok-btn {
+    background: linear-gradient(135deg, #ff6b81, #e63946); color: #fff;
+    border: none; border-radius: 25px;
+    padding: 12px 35px; font-size: 16px; font-family: inherit; font-weight: 700;
+    cursor: pointer; box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
+    transition: transform 0.2s;
+  }
+  .ok-btn:hover { transform: scale(1.05); }
+
+  /* ---------------- Love Letter ---------------- */
+  .love-letter-text {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #4a2a2a;
+    text-align: left;
+    padding: 20px;
+    background: #fff0f5;
+    border-radius: 12px;
+    margin-top: 20px;
+    border-left: 5px solid #e63946;
+    box-shadow: inset 0 0 10px rgba(255, 182, 193, 0.5);
+  }
+
+  .toast {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
+    background: #e63946; color: white; padding: 15px 25px; border-radius: 15px;
+    font-weight: 700; z-index: 200; transition: transform 0.3s;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  .toast.show { transform: translate(-50%, -50%) scale(1); }
+
+  @media (max-width: 380px) {
+    .wheel-container { width: 280px; height: 280px; }
+    .center-spin-btn { width: 75px; height: 75px; font-size: 18px; }
+    .spinner-title { font-size: 26px; }
+    .spinner-footer { font-size: 14px; bottom: 15px; right: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+<!-- Page 1: Envelope -->
+<section class="page active" id="page1">
+  <div class="envelope">
+    <div class="wax-seal">💝</div>
+    
+    <video src="sticker4.webm" autoplay loop muted playsinline class="sticker-video"></video>
+    
+    <h1 class="title">ချစ်သူရေ...</h1>
+    <p class="subtitle">သီတင်းကျွတ်လက်ဆောင်လေးပါတယ်</p>
+    <p class="hint">ဒီလက်ဆောင်လေးကို လက်ခံမလား?</p>
+    
+    <div class="btns">
+      <button id="yesBtn" class="btn btn-yes">Yes 💕</button>
+      <button id="noBtn" class="btn btn-no">No</button>
+    </div>
+  </div>
+</section>
+
+<!-- Page 2: Spinner -->
+<section class="page" id="page2">
+  <h1 class="spinner-title">မမအတွက် သီတင်းကျွတ်လက်ဆောင် Spinner 🎡</h1>
+  <p class="spinner-sub">ကျန်ရှိသော အလှည့်အကြိမ် <span id="spinsLeft">3</span> ခု</p>
+  
+  <div class="wheel-container">
+    <div class="pointer">🎀</div>
+    <div id="rotor" style="width:100%;height:100%;"></div>
+    <button id="spinBtn" class="center-spin-btn">Spin</button>
+  </div>
+
+  <button id="loveLetterBtn" class="love-letter-btn">အချစ်အတွက် ကိုယ့်ရဲ့ သီတင်းကျွတ် ချစ်စာလွှာလေးပါ 💌</button>
+</section>
+
+<!-- Page 3: Final Love Letter -->
+<section class="page" id="page3">
+  <div class="envelope" style="padding-top: 45px;">
+    <div class="wax-seal">💌</div>
+    <h1 class="title">ချစ်သူအတွက် 💖</h1>
+    <p class="subtitle">သီတင်းကျွတ် အမှတ်တရလေးပါ</p>
+    
+    <div class="love-letter-text">
+      ချစ်သူရေ...<br><br>
+      ဒီကံစမ်းမဲလေးတွေ ကုန်သွားပေမယ့် မင်းအပေါ်ထားတဲ့ ချစ်ခြင်းမေတ္တာကတော့ ဘယ်တော့မှ မကုန်ဆုံးပါဘူးနော်။ <br><br>
+      သီတင်းကျွတ်လပြည့်နေ့ရဲ့ လမင်းလိုပဲ မင်းရဲ့ဘဝမှာ အလင်းရောင်တွေ အမြဲပြည့်နေပါစေ။ <br><br>
+      ခုချိန်မှာ မမအနားမှာ မရှိပေးနိုင်ပေမယ့် အမြဲရှိနေပေးနိုင်အောင် ကြိုးစားနေပါတယ်။ မမရေ... ချစ်တယ်နော် 💖🌙✨
+    </div>
+    
+    <div style="font-size: 50px; margin-top: 20px;">💕🌙🎁</div>
+  </div>
+</section>
+
+<!-- ညာဘက်အောက်ထောင့် ဆုတောင်းစာသား (ဒီနေရာမှာ ရွှေ့ထားပါတယ်) -->
+<div id="footerText" class="spinner-footer" style="display: none;">
+  သီတင်းကျွတ်အချိန်အခါမှာ<br>
+  ကောင်းကျိုးတွေ အမြဲတမ်း<br>
+  ပိုင်ဆိုင်ပါစေ မမ 💖
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="prizeModal">
+  <div class="modal-box">
+    <div class="modal-close" onclick="closeModal()">×</div>
+    
+    <video id="modalSticker" class="modal-sticker" autoplay loop muted playsinline></video>
+
+    <div class="modal-header">🎉 ဂုဏ်ယူပါတယ်!</div>
+    <div class="modal-text">အချစ်ရရှိတဲ့ ဆုလေးကတော့</div>
+    <div class="prize-box" id="prizeText">အချစ်ကို အာဘွားပေးရမယ် 💖</div>
+    <button class="ok-btn" onclick="closeModal()">OK 💌</button>
+  </div>
+</div>
+
+<script>
+const segments = [
+  { label: "မုန့်ဖိုး ၁ သောင်း", icon: "💵", color: "#ffb3c6", prize: "မုန့်ဖိုး ၁ သောင်း 💵" }, 
+  { label: "အာဘွားလေး", icon: "💖", color: "#ff8fab", prize: "မမကမီးမီးကို အာဘွားပေးရမယ် 💖" }, 
+  { label: "မုန့်ဝယ်ကျွေး", icon: "🍰", color: "#ffc2d1", prize: "မုန့်ဝယ်ကျွေးရမယ် 🍰" },
+  { label: "ပန်းစည်းယူ", icon: "💐", color: "#ffe5ec", prize: "ပန်းစည်းယူမယ် 💐" }, 
+  { label: "ရုပ်ရှင်ကြည့်", icon: "🎬", color: "#ffb3c6", prize: "ရုပ်ရှင်တူတူကြည့်မယ် 🎬" },
+  { label: "အနမ်းလေး", icon: "💋", color: "#ff8fab", prize: "ချစ်သူဆီက အနမ်း 💋" }
+];
+
+const scriptedWinners = [1, 0, 3]; 
+
+let spinsLeft = 3;
+let isSpinning = false;
+let currentRotation = 0;
+
+function buildWheel() {
+  const r = 145;
+  const anglePer = 60;
+  let svg = "";
+  
+  segments.forEach((seg, i) => {
+    const startA = i * anglePer - 90;
+    const endA   = startA + anglePer;
+    const sRad = startA * Math.PI / 180;
+    const eRad = endA   * Math.PI / 180;
+    const x1 = r * Math.cos(sRad), y1 = r * Math.sin(sRad);
+    const x2 = r * Math.cos(eRad), y2 = r * Math.sin(eRad);
+    
+    svg += `<path d="M 0 0 L ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2} Z"
+              fill="${seg.color}" stroke="#fff" stroke-width="3"/>`;
+
+    const cw = i * anglePer + 30;
+    const cwRad = cw * Math.PI / 180;
+    const lx = 90 * Math.sin(cwRad);
+    const ly = -90 * Math.cos(cwRad);
+    let textRot = cw;
+    if (cw > 90 && cw < 270) textRot = cw - 180;
+
+    svg += `<g transform="translate(${lx} ${ly}) rotate(${textRot})">
+      <text text-anchor="middle" y="-5" font-size="24">${seg.icon}</text>
+      <text text-anchor="middle" y="15" font-size="11"
+            font-family="'Padauk',sans-serif" font-weight="700" fill="#6b2136">${seg.label}</text>
+    </g>`;
+  });
+  
+  document.getElementById("rotor").innerHTML = `<svg viewBox="-160 -160 320 320" class="wheel-svg">${svg}</svg>`;
+}
+
+function spinWheel() {
+  if (isSpinning || spinsLeft <= 0) return;
+  
+  isSpinning = true;
+  const btn = document.getElementById("spinBtn");
+  btn.disabled = true;
+  btn.textContent = "...";
+
+  let currentSpinIndex = 3 - spinsLeft; 
+  let winnerIndex = scriptedWinners[currentSpinIndex];
+
+  const wobble = (Math.random() - 0.5) * 40; 
+  const targetMod = ((-(winnerIndex * 60 + 30) + wobble) % 360 + 360) % 360;
+  const curMod = ((currentRotation % 360) + 360) % 360;
+  
+  let delta = targetMod - curMod;
+  if (delta <= 0) delta += 360;
+  
+  const spins = 5 + Math.floor(Math.random() * 3);
+  currentRotation += spins * 360 + delta;
+
+  document.querySelector(".wheel-svg").style.transform = `rotate(${currentRotation}deg)`;
+
+  setTimeout(() => {
+    isSpinning = false;
+    showPrize(segments[winnerIndex].prize, currentSpinIndex);
+  }, 5000);
+}
+
+function showPrize(prizeText, spinIndex) {
+  spinsLeft--;
+  document.getElementById("spinsLeft").textContent = spinsLeft;
+  document.getElementById("prizeText").textContent = prizeText;
+  
+  const videoElement = document.getElementById("modalSticker");
+  if (spinIndex === 0) {
+    videoElement.src = "sticker1.webm";
+  } else if (spinIndex === 1) {
+    videoElement.src = "sticker17.webm";
+  } else if (spinIndex === 2) {
+    videoElement.src = "sticker18.webm";
+  }
+  videoElement.load();
+  videoElement.play();
+
+  document.getElementById("prizeModal").classList.add("show");
+}
+
+function closeModal() {
+  document.getElementById("prizeModal").classList.remove("show");
+  const spinBtn = document.getElementById("spinBtn");
+  const loveBtn = document.getElementById("loveLetterBtn");
+  
+  if (spinsLeft > 0) {
+    spinBtn.disabled = false;
+    spinBtn.textContent = "Spin";
+  } else {
+    spinBtn.style.display = "none";
+    loveBtn.style.display = "inline-block";
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 2500);
+}
+
+function goToPage(pageNum) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.getElementById("page" + pageNum).classList.add("active");
+  
+  const footerText = document.getElementById("footerText");
+
+  if (pageNum === 2) {
+    document.body.classList.add("bg-spinner");
+    footerText.style.display = "block"; // Spinner စာမျက်နှာမှာ စာသားပြမယ်
+  } else {
+    document.body.classList.remove("bg-spinner");
+    footerText.style.display = "none"; // တခြားစာမျက်နှာမှာ ဖျောက်မယ်
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  buildWheel();
+
+  document.getElementById("noBtn").addEventListener("click", () => {
+    showToast("ဆရာမကြီးရေး Yes ကိုပဲ နှိပ်ရမှာပါ 😄");
+  });
+
+  document.getElementById("yesBtn").addEventListener("click", () => {
+    goToPage(2);
+  });
+
+  document.getElementById("spinBtn").addEventListener("click", spinWheel);
+
+  document.getElementById("loveLetterBtn").addEventListener("click", () => {
+    goToPage(3);
+  });
+});
+</script>
+</body>
+</html>
